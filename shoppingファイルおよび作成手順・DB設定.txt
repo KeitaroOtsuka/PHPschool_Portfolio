@@ -1,0 +1,127 @@
+    // プログラム(c:\xampp\htdocs\DT\shopping)
+    cart.php                カートを表示するプログラム
+    Bootstrap.class.php     設定に関するプログラム
+    detail.php              商品詳細を表示するプログラム
+    list.php                商品一覧を表示するプログラム
+
+    // クラスファイル(c:\xampp\htdocs\DT\shopping\lib)
+    PDODatabase.class.php   データベース関係のクラスファイル
+    Session.class.php       セッション関係のクラスファイル
+    Cart.class.php          カートに関するプログラムのクラスファイル
+    Item.class.php          商品に関するプログラムのクラスファイル
+
+    // テンプレート(c:\xampp\htdocs\DT\templates\shopping)
+    cart.html.twig           カートページ
+    category_menu.html.twig  カテゴリリストの部分テンプレート
+    detail.html.twig         商品詳細ページ
+    list.html.twig           商品リストページ
+
+    // Javascript(c:\xampp\htdocs\DT\js)
+    shopping.js             クリック先へ遷移するためのJavaScriptページ
+
+    // スタイルシート(c:\xampp\htdocs\DT\css)
+    shopping.css            shoppingページ全体のCSS
+    //ログのファイル
+    logs
+
+●MVCの考え方
+Controller| Model              | View
+
+list.php | Session.class.php  | list.html.twig
+         | Item.class.php     | category_menu.html.twig
+         | PDODatabase.class.php |
+
+detail.php | Session.class.php  | detail.html.twig
+           | Item.class.php     | category_menu.html.twig
+           | PDODatabase.class.php |
+
+cart.php | Session.class.php  | cart.html.twig
+         | Cart.class.php     |
+         | PDODatabase.class.php |
+
+以下の順でソースを書くとよいです。
+
+Bootstrap.class.php
+PDODatabase.class.php
+Session.class.php
+Item.class.php
+list.php
+list.html.twig
+category_menu.html.twig
+⇒ここまでで一段落。まず、商品のリストページが表示されているか確認する
+
+detail.php
+detail.html.twig
+shopping.js
+⇒この段階で、商品の詳細ページが表示されているか、購入できているかを確認する
+
+最後に、
+Cart.class.php
+cart.php
+cart.html.twig
+
+●テーブルの考え方
+まず、自分がこのお店の店員だとして、ノートをつけていると考える。
+そこでデータを管理したら、どんなデータが必要かを考える。
+
+必要なデータというのは最低限
+商品リスト(どんな商品があるか？)と
+顧客リスト(だれが何を買ったか？)である。
+
+・商品リストで必要な情報とは、
+商品番号、商品名、商品単価、カテゴリー、画像
+
+・顧客リストで必要な情報とは、
+取引の番号、誰が、何を、いくつ
+
+リレーションの考え方
+・カテゴリーなどは直接書いていくと以下のような面倒さがあげられる
+似たような語句が別物として認識される(たとえば果物とくだものなど。)
+一括の変更があったとき(たとえば果物→fruit)レコードが多いと面倒　
+
+そこでカテゴリーを直接商品に書くのではなく
+別のテーブルに分けると上記の問題を解決できる
+
+
+●shopppingデータベースの設定
+
+    CREATE DATABASE shopping_db DEFAULT CHARACTER SET utf8;
+    GRANT ALL PRIVILEGES ON shopping_db.* TO shopping_user@'localhost' IDENTIFIED BY 'shopping_pass' WITH GRANT OPTION;
+    USE shopping_db;
+
+    //商品テーブル
+    CREATE TABLE item (
+        item_id int unsigned not null auto_increment,
+        item_name varchar(100) not null,
+        detail text not null,
+        price DECIMAL(10,3) unsigned not null, //デシマル:decimal(最大桁数、小数点以下の桁数)
+        image varchar(50) not null,
+        ctg_id tinyint unsigned not null,
+        primary key( item_id ),
+        index item_idx( ctg_id )  //インデックス：データの検索速度を向上させるために、どの行がどこにあるかを示した索引のこと
+    );
+
+    //カート(取引)
+    CREATE TABLE cart (
+        crt_id int unsigned not null auto_increment,
+        customer_no int unsigned not null,
+        item_id int unsigned not null,
+        num tinyint(1) unsigned not null default 1,
+        delete_flg tinyint(1) unsigned not null default 0,
+        primary key( crt_id ),
+        index crt_idx( customer_no, delete_flg )
+    );
+
+    //カテゴリー
+    CREATE TABLE category (
+        ctg_id tinyint unsigned not null auto_increment,
+        category_name varchar(100) not null,
+        primary key(ctg_id)
+    );
+
+    //顧客の認識
+    CREATE TABLE session (
+        customer_no int unsigned not null auto_increment,
+        session_key varchar(32),
+        primary key(customer_no)
+    );
