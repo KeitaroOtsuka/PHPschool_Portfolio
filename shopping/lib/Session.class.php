@@ -11,6 +11,8 @@ class Session
 {
 
     public $session_key = '';
+    public $name = '';
+    public $password = '';
     public $db = NULL;
 
     public function __construct($db)
@@ -29,34 +31,50 @@ class Session
         $customer_no = $this->selectSession();
         // セッションIDがある(過去にショッピングカートに来たことがある)
         if ($customer_no !== false) {
-            $_SESSION['customer_no'] = $customer_no;
+            $_SESSION['user_id'] = $customer_no;
         } else {
             // セッションIDがない(初めてこのサイトに来ている)
-            $res = $this->insertSession();
-            if ($res === true) {
-                $_SESSION['customer_no'] = $this->db->getLastId();
+            $res_session = $this->insertSession();
+            if ($res_session === true) {
+                $_SESSION['user_id'] = $this->db->getLastId();
             } else {
-                $_SESSION['customer_no'] = '';
+                $_SESSION['user_id'] = '';
             }
         }
     }
 
     private function selectSession()
     {
-        $table = ' session ';
-        $col = ' customer_no ';
+        $table = ' users ';
+        $col = ' id ';
         $where = ' session_key = ? ';
         $arrVal = [$this->session_key];
 
         $res = $this->db->select($table, $col, $where, $arrVal);
-        return (count($res) !== 0) ? $res[0]['customer_no'] : false;
+        return (count($res) !== 0) ? $res[0]['id'] : false;
     }
 
     private function insertSession()
     {
-        $table = ' session ';
+        $table = ' users ';
         $insData = ['session_key ' => $this->session_key];
-        $res = $this->db->insert($table, $insData);
-        return $res;
+        $res_session = $this->db->insert($table, $insData);
+        return $res_session;
+    }
+
+    private function insertUserName()
+    {
+        $table = ' users ';
+        $insData = ['user_name ' => $this->session_key];
+        $res_user_name = $this->db->insert($table, $insData);
+        return $res_user_name;
+    }
+
+    private function insertPassword()
+    {
+        $table = ' users ';
+        $insData = ['password ' => $this->session_key];
+        $res_password = $this->db->insert($table, $insData);
+        return $res_password;
     }
 }

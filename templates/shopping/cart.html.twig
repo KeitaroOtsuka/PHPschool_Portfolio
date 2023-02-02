@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <link href="{{constant('shopping\\Bootstrap::APP_URL')}}css/shopping.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <div class="header">
+                <h3>SHOPPING<span>ーショッピングカートー</span></h3>
+            </div>
+            <div id="cart_list">
+                {# &yen;で円マークを表示している #}
+                {# https://e-words.jp/p/r-htmlentity.html #}
+                <p>カート内商品数：{{sumNum}}個　</p>
+                <p>合計金額：&yen;{{sumPrice|number_format(0, '.', ',')}}</p>
+                <p><a href="{{constant('shopping\\Bootstrap::ENTRY_URL')}}list.php">商品一覧へ戻る</a></p>
+            </div>
+                {% if dataArr | length == 0 %}
+                    <p class="empty">カートに商品は入っていません</p>
+                {% else %}
+                <div id="item_list">
+                {% for value in dataArr %}
+                    <div class="item">
+                        <ul>
+                            <li class="name">{{value.item_name}}</li>
+                            <li class="image"><img src="{{constant('shopping\\Bootstrap::ENTRY_URL')}}images/{{value.image}}" alt="{{value.item_name}}" /></li>
+                            <li class="price">&yen;{{value.price|number_format(0, '.', ',')}}</li>
+                            <li><a href="{{constant('shopping\\Bootstrap::ENTRY_URL')}}cart.php?crt_id={{value.crt_id}}">削除</a></li>
+                        </ul>
+                    </div>
+                {% endfor %}
+                </div>
+                {% endif %}
+        </div>
+    </body>
+</html>
+
