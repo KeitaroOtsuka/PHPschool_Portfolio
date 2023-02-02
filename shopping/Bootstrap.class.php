@@ -25,12 +25,14 @@ class Bootstrap
     // const APP_DIR = 'c:/xampp/htdocs/DT/';
     const APP_DIR = '/Applications/MAMP/htdocs/Portfolio/';
 
-    const TEMPLATE_DIR = self::APP_DIR . 'templates/';
+    const TEMPLATE_DIR = self::APP_DIR . 'templates/shopping/';
 
     const CACHE_DIR = false;
     //const CACHE_DIR = self::APP_DIR . 'templates_c/shopping/';
 
-    const APP_URL = 'http://localhost:8888/Portfolio/';
+    const APP_URL = 'http://localhost:8888/DT/';
+
+    const ENTRY_URL = self::APP_URL . 'shopping/';
 
     public static function loadClass($class)
     {

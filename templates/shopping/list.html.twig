@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <link href="{{constant('shopping\\Bootstrap::APP_URL')}}css/shopping.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <div id="wrapper">
+        {# カテゴリが押された時の挙動を説明 #}
+        {# includeはphpのrequire_onceのようなもの #}
+            <div class="header">
+                <h3>SHOPPING<span>ー商品リストー</span></h3>
+            </div>
+            <h1>こんにちは{{user_name}}さん</h1>
+            <div class="side">
+                <p>MENU</p>
+                {% include 'category_menu.html.twig' %}
+            </div>
+            <div id="item_list">
+                {% for value in dataArr %}
+                    <div class="item">
+                        <ul>
+                        {# http://localhost/DT/shopping/ #}
+                            <li class="name"><a href="{{constant('shopping\\Bootstrap::ENTRY_URL')}}detail.php?item_id={{value.item_id}}">{{value.item_name}}</a></li>
+                            {# 小数点第0まで表示、小数点は「.」で表示、1000単位を「,」で区切る #}
+                            {# 「&yen;」で￥を表示(cssのフォントスタイルによってはバックスラッシュが「￥」にならない。その対応) #}
+                            <li class="image"><a href="{{constant('shopping\\Bootstrap::ENTRY_URL')}}detail.php?item_id={{value.item_id}}"><img src="{{constant('shopping\\Bootstrap::ENTRY_URL')}}images/{{value.image}}" alt="{{value.item_name}}" /></a></li>
+                            <li class="price">&yen;{{value.price|number_format(0, '.', ',')}}</li>
+                            <li class="detail"><a href="{{constant('shopping\\Bootstrap::ENTRY_URL')}}detail.php?item_id={{value.item_id}}">詳細</a></li>
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </body>
+</html>
