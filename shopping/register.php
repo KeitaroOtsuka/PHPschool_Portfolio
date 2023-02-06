@@ -14,14 +14,15 @@ $itm = new Item($db);
 
 $msg = '';
 $link = '';
-if (isset($_POST['mail']) === true && isset($_POST['pass']) === true)
-{
-    $mail = $_POST['mail'];
-    $pass = $_POST['pass'];
-    list($msg, $link) = $db->checkLogin($mail,$pass);
-}
-// var_dump($msg);
+
+//フォームからの値をそれぞれ変数に代入
+$name = $_POST['name'];
+$mail = $_POST['mail'];
+$pass = password_hash($_POST['pass'], PASSWORD_DEFAULT);
+
+//フォームに入力されたmailがすでに登録されていないかチェック
+list($msg, $link) = $db->checkUserInformation ($mail, $name, $pass);
 ?>
 
-<h1><?php echo $msg; ?></h1>
+<h1><?php echo $msg; ?></h1><!--メッセージの出力-->
 <?php echo $link; ?>

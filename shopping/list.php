@@ -33,7 +33,6 @@ $cateArr = $itm->getCategoryList();
 // 商品リストを取得する
 $dataArr = $itm->getItemList($ctg_id);
 $context = [];
-$context['user_name'] = $_SESSION['user_name'];
 $context['cateArr'] = $cateArr;
 $context['dataArr'] = $dataArr;
 $template = $twig->loadTemplate('list.html.twig');
