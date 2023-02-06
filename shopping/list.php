@@ -24,16 +24,34 @@ $twig = new \Twig_Environment($loader, [
 ]);
 
 // SessionKeyを見て、DBへの登録状態をチェックする
-$ses->checkSession();
+// $ses->checkSession();
+if (isset($_SESSION['name']))
+{
+      $username = $_SESSION['name'];
+}
+if (isset($_SESSION['id'])) {//ログインしているとき
+    $msg = 'こんにちは' . htmlspecialchars($username, \ENT_QUOTES, 'UTF-8') . 'さん';
+    $link = '<a href="logout.php">ログアウト</a>';
+} else {//ログインしていない時
+    $msg = 'ログインしていません';
+    $link = '<a href="login_form.php">ログイン</a>';
+    exit;
+}
+?>
+<h1><?php echo $msg; ?></h1>
+<?php echo $link; 
 $ctg_id = (isset($_GET['ctg_id']) === true && preg_match('/^[0-9]+$/', $_GET['ctg_id']) === 1) ? $_GET['ctg_id'] : '';
-
+// var_dump($_SESSION);
 // カテゴリーリスト(一覧)を取得する
 $cateArr = $itm->getCategoryList();
 // var_dump($cateArr);
 // 商品リストを取得する
 $dataArr = $itm->getItemList($ctg_id);
 $context = [];
+$context['msg'] = $msg;
+$context['link'] = $link;
 $context['cateArr'] = $cateArr;
 $context['dataArr'] = $dataArr;
 $template = $twig->loadTemplate('list.html.twig');
 $template->display($context);
+?>
