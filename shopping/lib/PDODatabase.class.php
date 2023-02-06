@@ -94,7 +94,7 @@ class PDODatabase
             $_SESSION['id'] = $member['id'];
             $_SESSION['name'] = $member['name'];
             $msg = 'ログインしました。';
-            $link = '<a href="link.php">ホーム</a>';
+            $link = '<a href="list.php">ホーム</a>';
         } else {
             $msg = 'メールアドレスもしくはパスワードが間違っています。';
             $link = '<a href="login_form.php">戻る</a>';

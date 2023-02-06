@@ -7,4 +7,4 @@ session_destroy();//セッションを破壊
 ?>
 
 <p>ログアウトしました。</p>
-<a href="login.php">ログインへ</a>
+<a href="login_form.php">ログインへ</a>
