@@ -31,32 +31,32 @@ class Session
         $customer_no = $this->selectSession();
         // セッションIDがある(過去にショッピングカートに来たことがある)
         if ($customer_no !== false) {
-            $_SESSION['user_id'] = $customer_no;
+            $_SESSION['customer_no'] = $customer_no;
         } else {
             // セッションIDがない(初めてこのサイトに来ている)
             $res_session = $this->insertSession();
             if ($res_session === true) {
-                $_SESSION['user_id'] = $this->db->getLastId();
+                $_SESSION['customer_no'] = $this->db->getLastId();
             } else {
-                $_SESSION['user_id'] = '';
+                $_SESSION['customer_no'] = '';
             }
         }
     }
 
     private function selectSession()
     {
-        $table = ' users ';
-        $col = ' id ';
+        $table = ' session ';
+        $col = ' customer_no ';
         $where = ' session_key = ? ';
         $arrVal = [$this->session_key];
 
         $res = $this->db->select($table, $col, $where, $arrVal);
-        return (count($res) !== 0) ? $res[0]['id'] : false;
+        return (count($res) !== 0) ? $res[0]['customer_no'] : false;
     }
 
     private function insertSession()
     {
-        $table = ' users ';
+        $table = ' session ';
         $insData = ['session_key ' => $this->session_key];
         $res_session = $this->db->insert($table, $insData);
         return $res_session;

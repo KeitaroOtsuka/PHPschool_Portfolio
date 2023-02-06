@@ -57,6 +57,51 @@ class PDODatabase
         return $dbh;
     }
 
+    public function checkUserInformation ($mail, $name, $pass)
+    {
+        $sql = "SELECT * FROM users WHERE mail = :mail";
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->bindValue(':mail', $mail);
+        $stmt->execute();
+        $member = $stmt->fetch();
+        if ($member['mail'] === $mail) {
+            $msg = '同じメールアドレスが存在します。';
+            $link = '<a href="signup.php">戻る</a>';
+        } else {
+            //登録されていなければinsert 
+            $sql = "INSERT INTO users(name, mail, pass) VALUES (:name, :mail, :pass)";
+            $stmt = $this->dbh->prepare($sql);
+            $stmt->bindValue(':name', $name);
+            $stmt->bindValue(':mail', $mail);
+            $stmt->bindValue(':pass', $pass);
+            $stmt->execute();
+            $msg = '会員登録が完了しました';
+            $link = '<a href="login_form.php">ログインページ</a>';
+        }
+        return array($msg, $link);
+    }
+
+    public function checkLogin ($mail, $pass)
+    {
+        $sql = "SELECT * FROM users WHERE mail = :mail";
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->bindValue(':mail', $mail);
+        $stmt->execute();
+        $member = $stmt->fetch();
+        //指定したハッシュがパスワードにマッチしているかチェック
+        if (password_verify($pass, $member['pass'])) {
+            //DBのユーザー情報をセッションに保存
+            $_SESSION['id'] = $member['id'];
+            $_SESSION['name'] = $member['name'];
+            $msg = 'ログインしました。';
+            $link = '<a href="link.php">ホーム</a>';
+        } else {
+            $msg = 'メールアドレスもしくはパスワードが間違っています。';
+            $link = '<a href="login_form.php">戻る</a>';
+        }
+        return array($msg, $link);
+    }
+
     public function setQuery($query = '', $arrVal = [])
     {
         $stmt = $this->dbh->prepare($query);
