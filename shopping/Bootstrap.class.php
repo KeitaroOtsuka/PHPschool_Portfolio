@@ -30,7 +30,7 @@ class Bootstrap
     const CACHE_DIR = false;
     //const CACHE_DIR = self::APP_DIR . 'templates_c/shopping/';
 
-    const APP_URL = 'http://localhost:8888/DT/';
+    const APP_URL = 'http://localhost:8888/Portfolio/';
 
     const ENTRY_URL = self::APP_URL . 'shopping/';
 
