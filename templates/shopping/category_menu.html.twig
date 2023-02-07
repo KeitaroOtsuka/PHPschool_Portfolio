@@ -1,10 +1,10 @@
 <div id="category">
-    <ul>
+    <ul class="list-group">
     {# http://localhost/DT/shopping/ #}
-        <li><a href="{{constant('shopping\\Bootstrap::ENTRY_URL')}}list.php">全て</a></li>
+        <li class="list-group-item text-center"><a href="{{constant('shopping\\Bootstrap::ENTRY_URL')}}list.php">全て</a></li>
         {% for value in cateArr %}
             {# 検証モードでURLをメモ帳で確認して、遷移先とGETの情報を表示 #}
-            <li><a href="{{constant('shopping\\Bootstrap::ENTRY_URL')}}list.php?ctg_id={{value.ctg_id}}">{{value.category_name}}</a></li>
+            <li class="list-group-item text-center"><a href="{{constant('shopping\\Bootstrap::ENTRY_URL')}}list.php?ctg_id={{value.ctg_id}}">{{value.category_name}}</a></li>
         {% endfor %}
     </ul>
 </div>
