@@ -18,7 +18,7 @@
                 <tr>
                     <th>商品詳細<span class="red">*</span></th>
                     <td>
-                        <input type="text" name="item_detail" value="{{dataArr.item_detail}}">
+                        <textarea name="item_detail" rows="4" cols="20">{{dataArr.item_detail}}</textarea>
                         {% if errArr.item_detail | length > 0 %}<br><span class="red">{{ errArr.item_detail }}</span>{% endif %}
                     </td>
                 </tr>
@@ -38,15 +38,10 @@
                 <tr>
                     <th>カテゴリー<span class="red">*</span></th>
                     <td>
-                        {% for value in categoryArr %}
-                            {# 検証モードでURLをメモ帳で確認して、遷移先とGETの情報を表示 #}
-                            <input type="radio" value="{{value.category_name}}">
+                        {% for index, value in categoryArr %}
+                            <input type="radio" name="category" id="category_{{index}}">
+                            <label for="category_{{index}}">{{value.category_name}}</label>
                         {% endfor %}
-                       {# {% for index, label in categoryArr %}
-                           <input type="radio" name="ctg_id" value="{{index}}" id="category_{{index}}" {% if dataArr.category == index %} checked="checked" {% endif %}>
-                           <label for="category_{{index}}">{{label}}</label>
-                       {% endfor %}
-                       {% if errArr.ctg_id | length > 0 %}<br><span class="red">{{errArr.ctg_id}}</span>{% endif %} #}
                     </td>
                 </tr>
             </table>
