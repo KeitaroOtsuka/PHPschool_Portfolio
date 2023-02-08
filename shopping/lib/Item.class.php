@@ -59,4 +59,33 @@ class Item
         $table = ' item ';
         return $this->db->insert($table, $itemData);
     }
+
+    //画像をimageフォルダ下に保存する
+    public function saveImageData($tmp_image)
+    {
+        // エラーがなく、サイズが0ではないか
+        if ($tmp_image[3] === 0 && $tmp_image[4] !== 0) {
+            // 正しくサーバにアップされているかどうか
+        // is_uploaded_file：HTTP POSTでアップされたか調べる
+            if (is_uploaded_file($tmp_image[2]) === true) {
+                // 画像情報を取得する。getimagesize:画像のサイズ取得、mime他７つの値を連想配列で返す
+                // なぜ、getimagesizeを使うのか？実際の画像を解析して、mimeを取得する。$_FILESはファイル名から判断して出力したmimeを出しているので改竄が可能
+                $image_info = getimagesize($tmp_image[2]);
+            // var_dump($image_info); echo '<br><br>';
+            // MIME(マイム)：漢字(2バイト文字)や画像、音声を、半角英数字データ(文字列)に、変換して転送する。
+                $image_mime = $image_info['mime'];
+                // 画像サイズが利用できるサイズ以内かどうか
+                if ($tmp_image[4] > 1048576) {
+                    echo 'アップロードできる画像のサイズは、1MBまでです';
+                    // 画像の形式が利用できるタイプかどうか
+                } elseif (preg_match('/^image\/jpeg$/', $image_mime) === 0) {
+                    echo 'アップロードできる画像の形式は、JPEG形式(jpg/jpe/jpeg)だけです';
+            // move_uploaded_file(ファイル名,名前)：アップされたファイルを新しい位置に移動させる。第二引数でディレクトリ＆名前を指定。
+                    // time：現在時刻をUnixエポック(1970年1月1日00:00:00GMT)からの通算秒として返す(Unixタイムスタンプ)
+                } elseif (move_uploaded_file($tmp_image[2], './images/upload_' . time() . '.jpg') === true) {
+                    echo '画像のアップロードが完了しました';
+                }
+            }
+        }
+    }
 }

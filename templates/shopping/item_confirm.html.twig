@@ -1,1 +1,47 @@
- 
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>会員登録確認</title>
+    </head>
+    <body>
+        <form method="post" action="item_confirm.php">
+            <table>
+                <tr>
+                    <th>商品名</th>
+                    <td>{{dataArr.item_name}}</td>
+                </tr>
+                <tr>
+                    <th>商品詳細</th>
+                    <td>{{dataArr.item_detail}}</td>
+                </tr>
+                <tr>
+                    <th>値段</th>
+                    <td>{{dataArr.price}}</td>
+                </tr>
+                <tr>
+                    <th>イメージ</th>
+                    <td>{{dataArr.image.name}}</td>
+                </tr>
+                <tr>
+                    <th>カテゴリー</th>
+                    <td>{{ctgArr[dataArr.ctg_id]}}</td>
+                </tr>
+            </table>
+            <div>
+                <input type="submit" name="back" value="戻る">
+                <input type="submit" name="complete" value="登録完了">
+                {% for key,value in dataArr %}
+                    <!-- ↓下記メソッドで配列か否かをチェックしている -->
+                    {% if value is iterable %}
+                        {% for v in value %}
+                            <input type="hidden" name="{{key}}[]" value="{{v}}">
+                        {% endfor %}
+                    {% else %}
+                        <input type="hidden" name="{{key}}" value="{{value}}">
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </form>
+    </body>
+</html>

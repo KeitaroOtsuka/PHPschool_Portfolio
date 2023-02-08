@@ -15,5 +15,5 @@ $twig = new \Twig_Environment($loader, [
     'cache' => Bootstrap::CACHE_DIR
 ]);
 
-$template = $twig->loadTemplate('complete.html.twig');
+$template = $twig->loadTemplate('item_complete.html.twig');
 $template->display([]);
