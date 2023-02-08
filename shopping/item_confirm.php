@@ -51,6 +51,7 @@ switch ($mode) {
         // エラーメッセージの配列作成
         $errArr = $common->errorCheck($dataArr);
         $err_check = $common->getErrorFlg();
+        $err_check = true;
         // err_check = false →エラーがありますよ！
         // err_check = true →エラーがないですよ！
         // エラー無ければconfirm.tpl あるとregist.tpl
@@ -75,11 +76,11 @@ switch ($mode) {
         $itemData = $_POST;
         $image = $_POST['image'];
         $itemData['image'] = $image[0];
-
-        // var_dump($_FILES);
+        $res = $itm->saveImageData($image);
+        // var_dump($itemData);
         // exit;
 
-        // var_dump($image);
+        // var_dump($res);
         // echo '<br>';
         // echo $image[2], './images/' . $image[0];
         // exit;
@@ -106,14 +107,14 @@ switch ($mode) {
         // }
 
         $res = $itm->insItemData($itemData);
-
+        var_dump($res);
         if ($res === true) {
             // 登録成功時は完成ページへ
-            header('Location: ' . Bootstrap::ENTRY_URL . 'complete.php');
+            header('Location: ' . Bootstrap::ENTRY_URL . 'item_complete.php');
             exit();
         } else {
             // 登録失敗時は登録画面に戻る
-            $template = 'regist.html.twig';
+            $template = 'item_regist.html.twig';
 
             foreach ($dataArr as $key => $value) {
                 $errArr[$key] = '';
@@ -123,14 +124,12 @@ switch ($mode) {
         break;
 }
 
-$i = 1;
+$i = 0;
 foreach ($itm->getCategoryList() as $key => $val) {
     $ctgArr[$i] = $val['category_name'];
     $i ++;
 }
-
-$dataArr;
-
+// var_dump($dataArr['image']);
 $context = [];
 $context['dataArr'] = $dataArr;
 $context['errArr'] = $errArr;

@@ -39,7 +39,7 @@
                     <th>カテゴリー<span class="red">*</span></th>
                     <td>
                         {% for index, value in categoryArr %}
-                            <input type="radio" name="category" id="category_{{index}}">
+                            <input type="radio" name="ctg_id" value="{{index}}"  id="category_{{index}}" {% if dataArr.category == index %} checked="checked" {% endif %}>
                             <label for="category_{{index}}">{{value.category_name}}</label>
                         {% endfor %}
                     </td>

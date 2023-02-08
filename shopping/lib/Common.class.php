@@ -56,8 +56,8 @@ class Common
 
     private function detailCheck()
     {
-        if ($this->dataArr['detail'] === '') {
-            $this->errArr['detail'] = '商品説明を入力してください';
+        if ($this->dataArr['item_detail'] === '') {
+            $this->errArr['item_detail'] = '商品説明を入力してください';
         }
     }
 
