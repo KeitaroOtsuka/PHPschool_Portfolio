@@ -68,7 +68,7 @@ switch ($mode) {
             $errArr[$key] = '';
         }
 
-        $template = 'regist.html.twig';
+        $template = 'item_regist.html.twig';
         break;
 
     case 'complete': // 登録完了
@@ -109,11 +109,11 @@ switch ($mode) {
 
         if ($res === true) {
             // 登録成功時は完成ページへ
-            header('Location: ' . Bootstrap::ENTRY_URL . 'complete.php');
+            header('Location: ' . Bootstrap::ENTRY_URL . 'item_complete.php');
             exit();
         } else {
             // 登録失敗時は登録画面に戻る
-            $template = 'regist.html.twig';
+            $template = 'item_regist.html.twig';
 
             foreach ($dataArr as $key => $value) {
                 $errArr[$key] = '';
