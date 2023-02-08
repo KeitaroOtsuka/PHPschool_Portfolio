@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>商品登録</title>
+    </head>
+    <body>
+        <input type="hidden" name="entry_url" id="entry_url" value="{{constant('shopping\\Bootstrap::ENTRY_URL')}}">
+        <form method="post" action="item_confirm.php" enctype="multipart/form-data">
+            <table>
+                <tr>
+                    <th>商品名<span class="red">*</span></th>
+                    <td>
+                        <input type="text" name="item_name" value="{{dataArr.item_name}}">
+                        {% if errArr.item_name | length > 0 %}<br><span class="red">{{ errArr.item_name }}</span>{% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>商品詳細<span class="red">*</span></th>
+                    <td>
+                        <textarea name="item_detail" rows="4" cols="20">{{dataArr.item_detail}}</textarea>
+                        {% if errArr.item_detail | length > 0 %}<br><span class="red">{{ errArr.item_detail }}</span>{% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>値段<span class="red">*</span></th>
+                    <td>
+                        <input type="text" name="price" value="{{dataArr.price}}">
+                        {% if errArr.price | length > 0 %}<br><span class="red">{{ errArr.price }}</span>{% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>イメージ<span class="red">*</span></th>
+                    <td>
+                        <input type="file" name="image"> 
+                    </td>
+                </tr>
+                <tr>
+                    <th>カテゴリー<span class="red">*</span></th>
+                    <td>
+                        {% for index, value in categoryArr %}
+                            <input type="radio" name="category" id="category_{{index}}">
+                            <label for="category_{{index}}">{{value.category_name}}</label>
+                        {% endfor %}
+                    </td>
+                </tr>
+            </table>
+            <div>
+                <input type="submit" name="confirm" value="登録確認">
+            </div>
+        </form>
+    </body>
+</html>

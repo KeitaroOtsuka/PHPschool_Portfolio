@@ -37,6 +37,7 @@ if (isset($_SESSION['id'])) {//ログインしているとき
     $link = '<a href="login_form.php">ログイン</a>';
     exit;
 }
+$link2 = '<a href="item_regist.php">商品登録</a>';
 ?>
 <h1><?php echo $msg; ?></h1>
 <?php echo $link; 
@@ -55,3 +56,4 @@ $context['dataArr'] = $dataArr;
 $template = $twig->loadTemplate('list.html.twig');
 $template->display($context);
 ?>
+<h1><?php echo $link2; ?></h1>

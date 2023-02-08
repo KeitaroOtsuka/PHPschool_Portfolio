@@ -49,27 +49,12 @@ switch ($mode) {
         }
 
         // エラーメッセージの配列作成
-        $commonArr = $common->errorCheck($dataArr);
+        $errArr = $common->errorCheck($dataArr);
         $err_check = $common->getErrorFlg();
-
-        $errArr = $commonArr[0];
-        $image = $commonArr[1];
-
         // err_check = false →エラーがありますよ！
         // err_check = true →エラーがないですよ！
         // エラー無ければconfirm.tpl あるとregist.tpl
-        if ($err_check === true) {
-            if (move_uploaded_file($image['tmp_name'], './images/' . $image['name']) === false) {
-                echo '画像のアップロードに失敗しました';
-                $errArr['image'] = '画像のアップロードに失敗しました';
-                $template = 'regist.html.twig';
-            } else {
-                $template = 'confirm.html.twig';
-            } 
-        } else {
-            $template = 'regist.html.twig';
-        }
-
+        $template = ($err_check === true) ? 'item_confirm.html.twig' : 'item_regist.html.twig';
         break;
 
     case 'back': // 戻ってきた時
