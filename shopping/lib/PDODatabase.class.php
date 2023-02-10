@@ -64,7 +64,7 @@ class PDODatabase
         $stmt->bindValue(':mail', $mail);
         $stmt->execute();
         $member = $stmt->fetch();
-        if ($member['mail'] === $mail) {
+        if ($member === $mail) {
             $msg = '同じメールアドレスが存在します。';
             $link = '<a href="signup.php">戻る</a>';
         } else {
@@ -100,6 +100,33 @@ class PDODatabase
             $link = '<a href="login_form.php">戻る</a>';
         }
         return array($msg, $link);
+    }
+
+    public function checkAdmin ($mail, $pass)
+    {
+        $sql = "SELECT * FROM users WHERE mail = :mail";
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->bindValue(':mail', $mail);
+        $stmt->execute();
+        $member = $stmt->fetch();
+        //指定したハッシュがパスワードにマッチしているかチェック
+        if ($member['role'] == 1)
+        {
+            if (password_verify($pass, $member['pass'])) {
+                //DBのユーザー情報をセッションに保存
+                $_SESSION['id'] = $member['id'];
+                $_SESSION['name'] = $member['name'];
+                $msg = 'ログインしました。';
+                $link = '<a href="index.php">ホーム</a>';
+            } else {
+                $msg = 'メールアドレスもしくはパスワードが間違っています。';
+                $link = '<a href="admin_login_form.php">戻る</a>';
+            }
+        } else {
+            $msg = '権限がありません。';
+            $link = '<a href="admin_login_form.php">戻る</a>';
+        }
+        return array($msg, $link , $member);
     }
 
     public function setQuery($query = '', $arrVal = [])
