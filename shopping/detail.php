@@ -28,6 +28,7 @@ $ses->checkSession();
 
 // item_idを取得する
 $item_id = (isset($_GET['item_id']) === true && preg_match('/^\d+$/', $_GET['item_id']) === 1) ? $_GET['item_id'] : '';
+// var_dump($item_id);
 
 // item_idが取得できていない場合、商品一覧へ遷移させる
 if ($item_id === '') {
@@ -39,6 +40,7 @@ $cateArr = $itm->getCategoryList();
 
 // 商品情報を取得する
 $itemData = $itm->getItemDetailData($item_id);
+var_dump($itemData);
 
 $context = [];
 $context['cateArr'] = $cateArr;
