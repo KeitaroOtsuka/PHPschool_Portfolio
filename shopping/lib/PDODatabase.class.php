@@ -129,6 +129,16 @@ class PDODatabase
         return array($msg, $link , $member);
     }
 
+    public function delUsersData($id)
+    {
+        $table = ' users ';
+        $insData = ['delete_flg' => 1];
+        $where = ' id = ? ';
+        $arrWhereVal = [$id];
+
+        return self::update($table, $insData, $where, $arrWhereVal);
+    }
+
     public function setQuery($query = '', $arrVal = [])
     {
         $stmt = $this->dbh->prepare($query);

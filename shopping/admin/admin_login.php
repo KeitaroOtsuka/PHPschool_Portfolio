@@ -20,7 +20,7 @@ if (isset($_POST['mail']) === true && isset($_POST['pass']) === true)
     $pass = $_POST['pass'];
     list($msg, $link, $role) = $db->checkAdmin($mail,$pass); 
 }
-var_dump($mail, $pass, $role);
+// var_dump($mail, $pass, $role);
 ?>
 
 <h1><?php echo $msg; ?></h1>
