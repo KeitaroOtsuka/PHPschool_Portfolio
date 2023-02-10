@@ -124,7 +124,6 @@ switch ($mode) {
 
         break;
 }
-var_dump($image);
 $i = 0;
 foreach ($itm->getCategoryList() as $key => $val) {
     $ctgArr[$i] = $val['category_name'];
