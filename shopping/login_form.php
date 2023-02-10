@@ -37,5 +37,6 @@
     <input type="hidden" name="recaptchaResponse" id="recaptchaResponse">
     <input type="submit" value="ログイン">
     </form>
+    <p><a href="signup.php">会員登録がお済みでない方はこちら</a></p>
   </body>
 </html>
