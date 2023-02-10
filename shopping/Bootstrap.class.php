@@ -32,6 +32,8 @@ class Bootstrap
 
     const APP_URL = 'http://localhost:8888/Portfolio/';
 
+    const ADMIN_URL = self::APP_URL.'shopping/admin/';
+
     const ENTRY_URL = self::APP_URL . 'shopping/';
 
     public static function loadClass($class)
