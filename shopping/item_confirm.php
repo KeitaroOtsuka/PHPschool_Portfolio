@@ -42,6 +42,7 @@ switch ($mode) {
     
         $dataArr = $_POST;
         $dataArr['image'] = $_FILES['image'];
+        $res = $itm->saveImageData($dataArr['image']);
 
         // この値を入れないでPOSTするとUndefinedとなるので未定義の場合は空白状態としてセットしておく
         if (isset($_POST['ctg_id']) === false) {
@@ -76,8 +77,8 @@ switch ($mode) {
         $itemData = $_POST;
         $image = $_POST['image'];
         $itemData['image'] = $image[0];
-        $res = $itm->saveImageData($image);
-        // var_dump($itemData);
+        
+        
         // exit;
 
         // var_dump($res);
@@ -105,9 +106,9 @@ switch ($mode) {
         //     // }
         //     // $insData .= ($key === 'sex') ? $db->quote($value) . ',' : $db->str_quote($value) . ', ';
         // }
-
+            
         $res = $itm->insItemData($itemData);
-        var_dump($res);
+        // var_dump($res);
         if ($res === true) {
             // 登録成功時は完成ページへ
             header('Location: ' . Bootstrap::ENTRY_URL . 'item_complete.php');
@@ -123,7 +124,7 @@ switch ($mode) {
 
         break;
 }
-
+var_dump($image);
 $i = 0;
 foreach ($itm->getCategoryList() as $key => $val) {
     $ctgArr[$i] = $val['category_name'];
