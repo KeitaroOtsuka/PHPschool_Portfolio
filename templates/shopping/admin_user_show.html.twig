@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ユーザー詳細ページ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  </head>
+  <body>
+    <form method="post" action="admin_user_index.php">
+      <table>
+        <tr>
+            <th>お名前：</th>
+            <td>{{dataArr.name}}</td>
+        </tr>
+        <tr>
+            <th>メール：</th>
+            <td>{{dataArr.mail}}</td>
+        </tr>
+        <tr>
+            <th>権限：</th>
+            <td>{% if dataArr.role == 0 %}一般{% else %}管理者{% endif %}</td>
+        </tr>
+    </table>
+    <div>
+        <input type="submit" name="back" value="一覧へ戻る">
+    </div>
+    </form>
+  </body>
+</html>
