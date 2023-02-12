@@ -24,7 +24,7 @@
           {% if value.delete_flg == 0 %}
             <tr>
               <td>
-                <a href="{{constant('shopping\\Bootstrap::ADMIN_URL')}}admin_show.php?mem_id={{value.id}}">{{value.id}}</a>
+                <a href="{{constant('shopping\\Bootstrap::ADMIN_URL')}}admin_user_show.php?user_id={{value.id}}">{{value.id}}</a>
               </td>
               <td>
                 {{value.name}}
@@ -44,5 +44,6 @@
         </tbody>
       </table>
     </div>
+    <a href="admin_index.php">ホーム</a>
   </body>
 </html>

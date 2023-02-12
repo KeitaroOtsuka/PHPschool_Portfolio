@@ -77,4 +77,41 @@ class Session
         $res_password = $this->db->insert($table, $insData);
         return $res_password;
     }
+
+    public function checkUserSession()
+    {
+        // セッションIDのチェック
+        $user_id = $this->selectUserSession();
+        // セッションIDがある(過去にショッピングカートに来たことがある)
+        if ($user_id !== false) {
+            $_SESSION['user_id'] = $user_id;
+        } else {
+            // セッションIDがない(初めてこのサイトに来ている)
+            $res_session = $this->insertSession();
+            if ($res_session === true) {
+                $_SESSION['user_id'] = $this->db->getLastId();
+            } else {
+                $_SESSION['user_id'] = '';
+            }
+        }
+    }
+
+    private function selectUserSession()
+    {
+        $table = ' users ';
+        $col = ' id ';
+        $where = ' session_key = ? ';
+        $arrVal = [$this->session_key];
+
+        $res = $this->db->select($table, $col, $where, $arrVal);
+        return (count($res) !== 0) ? $res[0]['id'] : false;
+    }
+
+    function logged_in() 
+    {
+        if(isset($_SESSION['user_id'])) {
+            return true;
+        }
+        return false;
+    }
 }
