@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>商品詳細ページ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  </head>
+  <body>
+    <form method="post" action="admin_item_index.php">
+      <table>
+        <tr>
+            <th>画像：</th>
+            <td><img src="{{constant('shopping\\Bootstrap::ENTRY_URL')}}images/{{value.image}}" alt="{{value.item_name}}" , size: '300x200' class="card-img-top" /></td>
+        </tr>
+        <tr>
+            <th>商品目：</th>
+            <td>{{dataArr.item_name}}</td>
+        </tr>
+        <tr>
+            <th>商品詳細：</th>
+            <td>{{dataArr.item_detail}}</td>
+        </tr>
+        <tr>
+            <th>価格：</th>
+            <td>{{dataArr.price}}</td>
+        </tr>
+        <tr>
+            <th>カテゴリー：</th>
+            <td>{% if dataArr.ctg_id == 1 %}野菜{% elseif dataArr.ctg_id == 2 %}果物{% else %}飲み物{% endif %}</td>
+        </tr>
+    </table>
+    <div>
+        <input type="submit" name="back" value="一覧へ戻る">
+    </div>
+    </form>
+  </body>
+</html>
