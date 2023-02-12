@@ -13,16 +13,19 @@ $loader = new \Twig_Loader_Filesystem(Bootstrap::TEMPLATE_DIR);
 $twig = new \Twig_Environment($loader, [
       'cache' => Bootstrap::CACHE_DIR
 ]);
-
 $ses->checkUserSession();
 if(!$ses->logged_in()) {
-  header('Location: ' . Bootstrap::ADMIN_URL. 'login_form.php');
+  header('Location: ' . Bootstrap::ADMIN_URL. 'admin_login_form.php');
+}
+if(isset($_GET['item_id']) === true)
+{
+  $item_id = $_GET['item_id'];
 }
 
-$dataArr = $db->select('item');
+$dataArr = $db->select('item', '*', 'item_id = '.$item_id);
+var_dump($dataArr);
 
 $context = [];
-$context['dataArr'] = $dataArr;
-$template = $twig->loadTemplate('admin_item_index.html.twig');
+$context['dataArr'] = $dataArr[0];
+$template = $twig->loadTemplate('admin_item_show.html.twig');
 $template->display($context);
-?>
